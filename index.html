@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Rayos</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="calc-wrap">
+
+    <div class="header">
+        <h1>Calculadora de Rayos</h1>
+    </div>
+
+    <div class="card">
+        <p class="section-title">Tipo de rueda</p>
+
+        <div class="seg-control" id="tipoCtrl">
+            <button type="button"
+                    class="seg-btn active"
+                    data-val="front_rim">
+                Rin Delantero
+            </button>
+
+            <button type="button"
+                    class="seg-btn"
+                    data-val="front_disc">
+                Rin Delantero con Disco
+            </button>
+
+            <button type="button"
+                    class="seg-btn"
+                    data-val="rear_rim">
+                Rin Trasero
+            </button>
+
+            <button type="button"
+                    class="seg-btn"
+                    data-val="rear_disc">
+                Rin Trasero con Disco
+            </button>
+        </div>
+    </div>
+
+    <div class="card">
+        <p class="section-title">Rin y patrón</p>
+
+        <div class="row2">
+            <div class="field">
+                <div class="label-row">
+                    <label for="erd">Diámetro interno del rin o ERD</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="erd"
+                            aria-label="Ver ejemplo de ERD">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="erd"
+                       placeholder="Ej: 596">
+            </div>
+
+            <div class="field">
+                <div class="label-row">
+                    <label for="old">OLD</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="old"
+                            aria-label="Ver ejemplo de OLD">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="old"
+                       placeholder="Ej: 148">
+            </div>
+        </div>
+
+        <div class="row2 mt">
+            <div class="field">
+                <label for="agujeros">Agujeros</label>
+                <select id="agujeros">
+                    <option value="20">20H</option>
+                    <option value="24">24H</option>
+                    <option value="28">28H</option>
+                    <option value="32" selected>32H</option>
+                    <option value="36">36H</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <div class="label-row">
+                    <label for="rim_depth">Profundidad hasta el asiento del niple</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="rim-depth"
+                            aria-label="Ver cómo medir la profundidad hasta el asiento del niple">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       min="0"
+                       id="rim_depth"
+                       placeholder="Si cuentas con ERD, agrega 0">
+            </div>
+        </div>
+
+        <div class="row2 mt">
+            <div class="field">
+                <div class="label-row">
+                    <label id="crossLabel1" for="cruces_1">Cruces lado izquierdo</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="crosses"
+                            aria-label="Ver ejemplo de cruces">
+                        i
+                    </button>
+                </div>
+                <select id="cruces_1">
+                    <option value="0">0×</option>
+                    <option value="1">1×</option>
+                    <option value="2">2×</option>
+                    <option value="3" selected>3×</option>
+                    <option value="4">4×</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label id="crossLabel2" for="cruces_2">Cruces lado derecho</label>
+                <select id="cruces_2">
+                    <option value="0">0×</option>
+                    <option value="1">1×</option>
+                    <option value="2">2×</option>
+                    <option value="3" selected>3×</option>
+                    <option value="4">4×</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="side-spokes hidden"
+             id="sideSpokesPanel">
+            <label class="check-row">
+                <input type="checkbox"
+                       id="customSideSpokes">
+                <span>Rayos diferentes por lado</span>
+            </label>
+
+            <div class="row2 side-spokes-fields"
+                 id="sideSpokesFields">
+                <div class="field">
+                    <label id="sideSpokesLabel1"
+                           for="side_spokes_1">
+                        Rayos lado 1
+                    </label>
+                    <input type="number"
+                           min="1"
+                           step="1"
+                           id="side_spokes_1">
+                </div>
+
+                <div class="field">
+                    <label id="sideSpokesLabel2"
+                           for="side_spokes_2">
+                        Rayos lado 2
+                    </label>
+                    <input type="number"
+                           min="1"
+                           step="1"
+                           id="side_spokes_2">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card hub-section visible"
+         id="sec_front_rim">
+        <p class="section-title">Maza delantera</p>
+
+        <div class="row2">
+            <div class="field">
+                <div class="label-row">
+                    <label for="fr_flange">Diámetro del Ala</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="flange"
+                            aria-label="Ver ejemplo de diámetro del ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="fr_flange">
+            </div>
+
+            <div class="field">
+                <div class="label-row">
+                    <label for="fr_locknut">Contratuerca → Ala</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="locknut"
+                            aria-label="Ver ejemplo de contratuerca a ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="fr_locknut">
+            </div>
+        </div>
+    </div>
+
+    <div class="card hub-section"
+         id="sec_front_disc">
+        <p class="section-title">Maza delantera con disco</p>
+
+        <div class="row2">
+            <div class="field">
+                <div class="label-row">
+                    <label for="fd_ds_flange">Diámetro de Ala lado disco</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="flange"
+                            aria-label="Ver ejemplo de diámetro del ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="fd_ds_flange">
+            </div>
+
+            <div class="field">
+                <div class="label-row">
+                    <label for="fd_ds_locknut">Contratuerca → Ala lado disco</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="locknut"
+                            aria-label="Ver ejemplo de contratuerca a ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="fd_ds_locknut">
+            </div>
+        </div>
+
+        <div class="row2 mt">
+            <div class="field">
+                <div class="label-row">
+                    <label for="fd_nds_flange">Diámetro de Ala lado no disco</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="flange"
+                            aria-label="Ver ejemplo de diámetro del ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="fd_nds_flange">
+            </div>
+
+            <div class="field">
+                <div class="label-row">
+                    <label for="fd_nds_locknut">Contratuerca → Ala lado no disco</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="locknut"
+                            aria-label="Ver ejemplo de contratuerca a ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="fd_nds_locknut">
+            </div>
+        </div>
+    </div>
+
+    <div class="card hub-section"
+         id="sec_rear_rim">
+        <p class="section-title">Maza trasera</p>
+
+        <div class="row2">
+            <div class="field">
+                <div class="label-row">
+                    <label for="rr_ds_flange">Diámetro de Ala lado transmisión</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="flange"
+                            aria-label="Ver ejemplo de diámetro del ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="rr_ds_flange">
+            </div>
+
+            <div class="field">
+                <div class="label-row">
+                    <label for="rr_ds_locknut">Contratuerca → Ala lado transmisión</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="locknut"
+                            aria-label="Ver ejemplo de contratuerca a ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="rr_ds_locknut">
+            </div>
+        </div>
+
+        <div class="row2 mt">
+            <div class="field">
+                <div class="label-row">
+                    <label for="rr_nds_flange">Diámetro de Ala lado no transmisión</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="flange"
+                            aria-label="Ver ejemplo de diámetro del ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="rr_nds_flange">
+            </div>
+
+            <div class="field">
+                <div class="label-row">
+                    <label for="rr_nds_locknut">Contratuerca → Ala lado no transmisión</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="locknut"
+                            aria-label="Ver ejemplo de contratuerca a ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="rr_nds_locknut">
+            </div>
+        </div>
+    </div>
+
+    <div class="card hub-section"
+         id="sec_rear_disc">
+        <p class="section-title">Maza trasera con disco</p>
+
+        <div class="row2">
+            <div class="field">
+                <div class="label-row">
+                    <label for="rd_ds_flange">Diámetro de Ala lado transmisión</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="flange"
+                            aria-label="Ver ejemplo de diámetro del ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="rd_ds_flange">
+            </div>
+
+            <div class="field">
+                <div class="label-row">
+                    <label for="rd_ds_locknut">Contratuerca → Ala lado transmisión</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="locknut"
+                            aria-label="Ver ejemplo de contratuerca a ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="rd_ds_locknut">
+            </div>
+        </div>
+
+        <div class="row2 mt">
+            <div class="field">
+                <div class="label-row">
+                    <label for="rd_disc_flange">Diámetro de Ala lado disco</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="flange"
+                            aria-label="Ver ejemplo de diámetro del ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="rd_disc_flange">
+            </div>
+
+            <div class="field">
+                <div class="label-row">
+                    <label for="rd_disc_locknut">Contratuerca → Ala lado disco</label>
+                    <button type="button"
+                            class="info-btn"
+                            data-help="locknut"
+                            aria-label="Ver ejemplo de contratuerca a ala">
+                        i
+                    </button>
+                </div>
+                <input type="number"
+                       step="0.1"
+                       id="rd_disc_locknut">
+            </div>
+        </div>
+    </div>
+
+    <div class="warning" id="warn">
+        <span aria-hidden="true">!</span>
+        <span id="warnMsg"></span>
+    </div>
+
+    <button class="calc-btn"
+            id="calcBtn">
+        Calcular Rayos
+    </button>
+
+    <div class="notice" role="note">
+        <strong>Aviso:</strong>
+        El uso de esta calculadora y la verificación de los resultados son responsabilidad del usuario.
+        No nos hacemos responsables por errores o daños derivados de su uso.
+    </div>
+
+    <div class="results"
+         id="results">
+        <div class="result-card premium">
+            <div class="result-side"
+                 id="lab1">
+                Lado
+            </div>
+            <div class="result-big"
+                 id="res1">
+                -
+            </div>
+            <div class="result-unit">milímetros</div>
+        </div>
+
+        <div class="result-card premium">
+            <div class="result-side"
+                 id="lab2">
+                Lado
+            </div>
+            <div class="result-big"
+                 id="res2">
+                -
+            </div>
+            <div class="result-unit">milímetros</div>
+        </div>
+
+        <p class="result-details" id="resultDetails"></p>
+    </div>
+
+</div>
+
+<div class="help-modal"
+     id="helpModal"
+     aria-hidden="true">
+    <button type="button"
+            class="help-backdrop"
+            id="helpCloseBackdrop"
+            aria-label="Cerrar ayuda"></button>
+
+    <div class="help-panel"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="helpTitle">
+        <button type="button"
+                class="help-close"
+                id="helpClose"
+                aria-label="Cerrar ayuda">
+            ×
+        </button>
+        <p class="section-title" id="helpTitle">Ayuda</p>
+        <div id="helpVisual"></div>
+        <p class="help-copy" id="helpCopy"></p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
